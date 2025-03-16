@@ -1,0 +1,52 @@
+[200~# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.installed.cfg
+
+# Virtual environments
+venv/
+.env/
+*.venv
+
+# Jupyter Notebook checkpoints
+**/.ipynb_checkpoints/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Unit test / coverage reports
+.coverage
+*.cover
+.hypothesis/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.bak
+*.swp
+*.swo
+
+
+# Ignore large or generated files
+*.pickle
+*.joblib
+*.npy
+*.npz
+
