@@ -1,11 +1,29 @@
 # Hybrid Search RAG
 
-## Sample Conversations
+## Architecture
 
-### Text to Text
+**Ingestion**
 
-### Voice to Text
+TODO
 
+**Serving**
+
+TODO
+
+## 📷 Sample Conversations Screenshots
+
+**Text**
+
+<p align="center">
+  <img src="images/text.png" width="100%" alt="Screenshot 1">
+</p>
+
+
+**Voice**
+
+<p align="center">
+  <img src="images/voice.png" width="100%" alt="Screenshot 1">
+</p>
 
 ## Setup
 
