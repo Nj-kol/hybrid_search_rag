@@ -22,14 +22,18 @@
 
 
 <p align="center">
-  <img src="images/ingest.jpg" width="200%" alt="Screenshot 1">
+  <img src="images/ingest.png" width="200%" alt="Screenshot 1">
 </p>
-
-Ref : https://qdrant.tech/documentation/search-precision/reranking-hybrid-search/
 
 **Serving**
 
-TODO
+
+
+<p align="center">
+  <img src="images/rag_serve.png" width="200%" alt="Screenshot 1">
+</p>
+
+Ref : https://qdrant.tech/documentation/search-precision/reranking-hybrid-search/
 
 ## Setup
 
