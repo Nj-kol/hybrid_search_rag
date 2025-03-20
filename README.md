@@ -1,15 +1,5 @@
 # Hybrid Search RAG
 
-## Architecture
-
-**Ingestion**
-
-TODO
-
-**Serving**
-
-TODO
-
 ## 📷 Sample Conversations Screenshots
 
 **Text**
@@ -24,6 +14,22 @@ TODO
 <p align="center">
   <img src="images/voice.png" width="100%" alt="Screenshot 1">
 </p>
+
+
+## Architecture
+
+**Ingestion**
+
+
+<p align="center">
+  <img src="images/ingest.jpg" width="200%" alt="Screenshot 1">
+</p>
+
+Ref : https://qdrant.tech/documentation/search-precision/reranking-hybrid-search/
+
+**Serving**
+
+TODO
 
 ## Setup
 
