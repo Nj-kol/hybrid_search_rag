@@ -146,3 +146,72 @@ bash ./start.sh
 ## References
 
 - https://qdrant.tech/documentation/search-precision/reranking-hybrid-search/
+
+
+
+```python
+multiply.invoke({"x": 4, "y": 5})
+```
+### Example with Agent
+
+```python
+from langchain_core.tools import tool
+from langchain_ollama import ChatOllama
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.prompts import ChatPromptTemplate
+
+@tool
+def multiply(x: float, y: float) -> float:
+    """Multiply 'x' times 'y'."""
+    return x * y
+
+@tool
+def exponentiate(x: float, y: float) -> float:
+    """Raise 'x' to the 'y'."""
+    return x**y
+
+@tool
+def add(x: float, y: float) -> float:
+    """Add 'x' and 'y'."""
+    return x + y
+
+tools = [multiply, exponentiate, add]
+
+## Initialize a chat model
+llm_name = "llama3.1:8b"
+llm = ChatOllama(
+    base_url="http://localhost:11434",
+    model=llm_name,
+    temperature=0,
+    num_predict=500,
+    tfs_z=0.8,
+    top_k=30,
+    top_p=0.6
+)
+
+# Prompt for creating Tool Calling Agent
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You are a helpful assistant.",
+        ),
+        ("placeholder", "{chat_history}"),
+        ("human", "{input}"),
+        ("placeholder", "{agent_scratchpad}"),
+    ]
+)
+
+# Construct the Tool Calling Agent
+agent = create_tool_calling_agent(llm, tools, prompt)
+
+# Create an agent executor by passing in the agent and tools
+agent_executor = AgentExecutor(agent=agent, tools=tools)
+
+# Run Agent
+query = "What is 3 times 12?"
+
+response = agent_executor.invoke({"input": query})
+```
+
+

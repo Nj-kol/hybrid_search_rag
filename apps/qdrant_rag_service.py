@@ -2,6 +2,9 @@ from langchain_ollama import ChatOllama
 
 from apps.qdrant_hybrid_retriever import QdrantHybridRetriever
 from apps.qdrant_rag_with_memory import ChatbotWithMemory
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.postgres import PostgresSaver
+from psycopg_pool import ConnectionPool
 
 class QdrantRagService:
     def __init__(self):
@@ -57,9 +60,19 @@ class QdrantRagService:
             top_k=30,
             top_p=0.6
         )
-        
+
+        ## Intialize a Persistent checkpointer
+        DB_URI = "postgresql://postgres:postgres@nilanjan-pc:35432/demos?sslmode=disable"
+        connection_kwargs = {
+            "autocommit": True,
+            "prepare_threshold": 0,
+        }
+        self.pool = ConnectionPool(conninfo=DB_URI, max_size=20, kwargs=connection_kwargs)
+        self.checkpointer = PostgresSaver(self.pool)
+        self.checkpointer.setup()
+    
         # Initialize the Chatbot
-        self.chatbot = ChatbotWithMemory(self.llm, self.retriever)
+        self.chatbot = ChatbotWithMemory(self.llm, self.retriever, self.checkpointer)
 
     def invoke(self, query: str, config):
         return self.chatbot.query(query, config)

@@ -11,7 +11,7 @@ class Pipeline:
         VECTORSTORE_ENDPOINT: str
 
     def __init__(self):
-        self.name = "AbhiGPT"
+        self.name = "PersonalGPT"
         self.valves = self.Valves(
             **{
                 "OLLAMA_BASE_URL": os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
@@ -23,7 +23,6 @@ class Pipeline:
         # This function is called when the server is started.
         global chat_service, config
         self.chat_service = QdrantRagService()
-        self.config = {"configurable": {"thread_id": "abc123"}}
         pass
 
     async def on_shutdown(self):
@@ -39,12 +38,15 @@ class Pipeline:
             if user_message.startswith("### Task:"):
                 print(f"⚠️ Ignoring system message")
                 return ""  # Return empty response or handle as needed
-            print(f"Body is : {body}")
             print(f"User msg  is : {user_message}")
             ## Invoke
-            thread_id = body.get("thread_id", f"session-{hash(user_message)}")
-            config = {"configurable": {"thread_id": thread_id}}
-            response = self.chat_service.invoke(user_message, self.config)
+            metadata = body.get("metadata", {})
+            user_id = metadata.get("user_id", "default_user_id")
+            chat_id = metadata.get("chat_id", "default_chat_id")
+            session_id = metadata.get("session_id", "default_session_id")
+            print(f"chat_id, session_id: {chat_id}--{session_id}")
+            config = {"configurable": {"thread_id": chat_id}}
+            response = self.chat_service.invoke(user_message, config)
             return response
         except Exception as e:
             print(f"An error occurred: {str(e)}")

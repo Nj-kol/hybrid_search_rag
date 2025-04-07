@@ -13,11 +13,14 @@ requests==2.32.2
 aiohttp==3.9.5
 httpx
 
+psycopg 
+psycopg-pool
 qdrant-client
 fastembed
 langchain
 langchain-community
 langgraph
+langgraph-checkpoint-postgres
 langchain_ollama
 unstructured[md]
 
@@ -25,3 +28,4 @@ jupyterlab
 libmagic
 ipywidgets
 tqdm
+

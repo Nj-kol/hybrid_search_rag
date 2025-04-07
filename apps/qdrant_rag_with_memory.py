@@ -14,13 +14,13 @@ from langchain_ollama import ChatOllama
 
 from langgraph.graph import START, END, StateGraph
 from langgraph.graph import MessagesState, StateGraph
-from langgraph.checkpoint.memory import MemorySaver
 
 class ChatbotWithMemory:
-    def __init__(self, llm, retriever):
+    def __init__(self, llm, retriever, checkpointer):
         # Setup
         self.llm = llm
         self.custom_retriever = retriever
+        self.checkpointer = checkpointer
         self.graph = self._build_graph()
 
     def _build_graph(self):
@@ -88,9 +88,6 @@ class ChatbotWithMemory:
         graph_builder.add_node(query_or_respond)
         graph_builder.add_node(tools)
         graph_builder.add_node(generate)
-        
-        memory = MemorySaver()
-        
         graph_builder.set_entry_point("query_or_respond")
         graph_builder.add_conditional_edges(
             "query_or_respond",
@@ -100,7 +97,7 @@ class ChatbotWithMemory:
         graph_builder.add_edge("tools", "generate")
         graph_builder.add_edge("generate", END)
         
-        graph = graph_builder.compile(checkpointer=memory)
+        graph = graph_builder.compile(checkpointer=self.checkpointer)
         return graph
    
     def get_history(self, config):
